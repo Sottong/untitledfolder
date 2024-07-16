@@ -1,0 +1,461 @@
+    {
+        "id": "7af97bf4bbc1b3b8",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "f034946dd860da8b",
+        "type": "inject",
+        "z": "7af97bf4bbc1b3b8",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "test",
+        "payloadType": "str",
+        "x": 290,
+        "y": 80,
+        "wires": [
+            [
+                "a1eb477f81b1d622"
+            ]
+        ]
+    },
+    {
+        "id": "a1eb477f81b1d622",
+        "type": "admin",
+        "z": "7af97bf4bbc1b3b8",
+        "name": "WA Admin",
+        "whatsappLink": "1f60a167f0df70f5",
+        "x": 470,
+        "y": 80,
+        "wires": [
+            [
+                "4238ecdd16960b01"
+            ]
+        ]
+    },
+    {
+        "id": "4238ecdd16960b01",
+        "type": "debug",
+        "z": "7af97bf4bbc1b3b8",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 660,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "f08d33e2ea6c5096",
+        "type": "inject",
+        "z": "7af97bf4bbc1b3b8",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "restart",
+        "payloadType": "str",
+        "x": 290,
+        "y": 140,
+        "wires": [
+            [
+                "a1eb477f81b1d622"
+            ]
+        ]
+    },
+    {
+        "id": "befa79a6ea6ed85a",
+        "type": "debug",
+        "z": "7af97bf4bbc1b3b8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1050,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "92956c66f38e1f89",
+        "type": "function",
+        "z": "7af97bf4bbc1b3b8",
+        "name": "function 1",
+        "func": "if(msg.from == 6289639077493 || msg.from == 6285727837809 || msg.from == 6285706383618) {\n    \n    var pesan = msg.payload;\n\n    // Contoh penggunaan switch\n    switch (pesan.toLowerCase()) {\n        case \"hidupkan motor\":\n            msg.payload = \"0\";\n            break;\n        case \"matikan motor\":\n            msg.payload = \"1\";\n            break;\n        case \"nyalakan kontak\":\n            msg.payload = \"2\";\n            break;\n        case \"nyalakan mesin\":\n            msg.payload = \"3\";\n            break;\n        case \"lokasi\":\n            msg.payload = \"4\";\n            break;\n        case \"help\":\n            msg.payload = \"5\";\n            break;\n        default:\n            msg.payload = null;\n            break;\n    }\n\n}\nelse{\n    msg = null;\n    return msg;\n}\n\n// Kirim msg ke node selanjutnya dalam alur\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 660,
+        "wires": [
+            [
+                "aa63c38c90918a0f"
+            ]
+        ]
+    },
+    {
+        "id": "db6b8a2ca73190f8",
+        "type": "chats-in",
+        "z": "7af97bf4bbc1b3b8",
+        "name": "Chats In",
+        "whatsappLink": "7464312383c8c54d",
+        "whatsappLiteevent": "",
+        "whatsappWebevent": "message",
+        "x": 340,
+        "y": 660,
+        "wires": [
+            [
+                "92956c66f38e1f89",
+                "5838590171bea532"
+            ]
+        ]
+    },
+    {
+        "id": "254635345f7f330c",
+        "type": "mqtt out",
+        "z": "7af97bf4bbc1b3b8",
+        "name": "",
+        "topic": "gps/motor/set",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "fc26fd11651e34ce",
+        "x": 900,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "aa63c38c90918a0f",
+        "type": "switch",
+        "z": "7af97bf4bbc1b3b8",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "else"
+            },
+            {
+                "t": "eq",
+                "v": "5",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 690,
+        "y": 660,
+        "wires": [
+            [
+                "254635345f7f330c",
+                "befa79a6ea6ed85a"
+            ],
+            [
+                "6522f26da24fe3f1"
+            ]
+        ]
+    },
+    {
+        "id": "e04ab69d381d6b59",
+        "type": "chats-out",
+        "z": "7af97bf4bbc1b3b8",
+        "name": "Chats Out",
+        "whatsappLink": "7464312383c8c54d",
+        "number": "+6289639077493",
+        "x": 1070,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "6522f26da24fe3f1",
+        "type": "template",
+        "z": "7af97bf4bbc1b3b8",
+        "name": "help",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "daftar perintah : \n- hidupkan motor\n- matikan motor\n- nyalakan kontak\n- nyalakan mesin\n- lokasi\n- help",
+        "output": "str",
+        "x": 870,
+        "y": 660,
+        "wires": [
+            [
+                "e04ab69d381d6b59",
+                "befa79a6ea6ed85a",
+                "49316e236b5ea1ba",
+                "09b06ce58a8fafbb"
+            ]
+        ]
+    },
+    {
+        "id": "f7c2bd325f6d77aa",
+        "type": "mqtt in",
+        "z": "7af97bf4bbc1b3b8",
+        "name": "reply",
+        "topic": "gps/motor/get",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "fc26fd11651e34ce",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 350,
+        "y": 760,
+        "wires": [
+            [
+                "4da2cc92ee39ea72"
+            ]
+        ]
+    },
+    {
+        "id": "679f5090ed10fcc2",
+        "type": "function",
+        "z": "7af97bf4bbc1b3b8",
+        "name": "function 2",
+        "func": "\nvar pesan = msg.payload;\n\n// Contoh penggunaan switch\nswitch (pesan) {\n    case \"0\":\n        msg.payload = \"Motor anda berhasil dihidupkan\";\n        break;\n    case \"1\":\n        msg.payload = \"Motor anda berhasil dimatikan\";\n        break;\n    case \"2\":\n        msg.payload = \"Kontak Motor anda berhasil dinyalakan\";\n        break;\n    case \"3\":\n        msg.payload = \"mesin motor anda berhasil dihidupkan\";\n        break;\n    case \"6\":\n        msg.payload = \"Alat siap digunakan\";\n        break;\n    default:\n        msg.payload = null;\n        break;\n}\n\n// Kirim msg ke node selanjutnya dalam alur\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 760,
+        "wires": [
+            [
+                "08e0ae4972acd300",
+                "2e1dfdae1dfe543f",
+                "f2fcae4d8aca6a08",
+                "cd9c943e8bba4411"
+            ]
+        ]
+    },
+    {
+        "id": "4da2cc92ee39ea72",
+        "type": "switch",
+        "z": "7af97bf4bbc1b3b8",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "else"
+            },
+            {
+                "t": "cont",
+                "v": ",",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 510,
+        "y": 760,
+        "wires": [
+            [
+                "679f5090ed10fcc2"
+            ],
+            [
+                "b9aa21b16afc47da"
+            ]
+        ]
+    },
+    {
+        "id": "08e0ae4972acd300",
+        "type": "debug",
+        "z": "7af97bf4bbc1b3b8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 910,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "2e1dfdae1dfe543f",
+        "type": "chats-out",
+        "z": "7af97bf4bbc1b3b8",
+        "name": "Chats Out",
+        "whatsappLink": "7464312383c8c54d",
+        "number": "+6289639077493",
+        "x": 910,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "b9aa21b16afc47da",
+        "type": "template",
+        "z": "7af97bf4bbc1b3b8",
+        "name": "help",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "http://maps.google.com/maps?q={{payload}}",
+        "output": "str",
+        "x": 690,
+        "y": 840,
+        "wires": [
+            [
+                "08e0ae4972acd300",
+                "2e1dfdae1dfe543f",
+                "f2fcae4d8aca6a08",
+                "cd9c943e8bba4411"
+            ]
+        ]
+    },
+    {
+        "id": "5838590171bea532",
+        "type": "debug",
+        "z": "7af97bf4bbc1b3b8",
+        "name": "1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 510,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "49316e236b5ea1ba",
+        "type": "chats-out",
+        "z": "7af97bf4bbc1b3b8",
+        "name": "Chats Out",
+        "whatsappLink": "7464312383c8c54d",
+        "number": "+6285727837809",
+        "x": 1070,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "f2fcae4d8aca6a08",
+        "type": "chats-out",
+        "z": "7af97bf4bbc1b3b8",
+        "name": "Chats Out",
+        "whatsappLink": "7464312383c8c54d",
+        "number": "+6285727837809",
+        "x": 910,
+        "y": 920,
+        "wires": []
+    },
+    {
+        "id": "09b06ce58a8fafbb",
+        "type": "chats-out",
+        "z": "7af97bf4bbc1b3b8",
+        "name": "Chats Out",
+        "whatsappLink": "7464312383c8c54d",
+        "number": "+6285706383618",
+        "x": 1130,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "cd9c943e8bba4411",
+        "type": "chats-out",
+        "z": "7af97bf4bbc1b3b8",
+        "name": "Chats Out",
+        "whatsappLink": "7464312383c8c54d",
+        "number": "+6285706383618",
+        "x": 910,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "1f60a167f0df70f5",
+        "type": "whatsappLink",
+        "cName": "whatsapp-web",
+        "name": "Web",
+        "clientType": "waWebClient",
+        "onlineStatus": true,
+        "loopTime": "5"
+    },
+    {
+        "id": "7464312383c8c54d",
+        "type": "whatsappLink",
+        "cName": "whatsapp-web",
+        "name": "Web",
+        "clientType": "waWebClient",
+        "onlineStatus": true,
+        "loopTime": "5"
+    },
+    {
+        "id": "fc26fd11651e34ce",
+        "type": "mqtt-broker",
+        "name": "send to device",
+        "broker": "broker.hivemq.com",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    }
+]
